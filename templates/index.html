@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Visa Application Screener</title>
+    </head>
+    <body>
+        <h1>Visa Application Screener</h1>
+        <p>Choose your input method.</p>
+        <form method='POST'>
+            {{ form.hidden_tag() }}
+            <p>
+            {% for option in form.answer %}
+                {{ option }} {{ option.label }}<br>
+            {% endfor %}
+            </p>
+            {{ form.submit }}
+        </form>
+        <p>Click <a href="{{ url_for('home') }}">here</a> to return to the home page.</p>
+    </body>
+</html>
