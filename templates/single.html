@@ -5,6 +5,42 @@
     <body>
         <h1>Visa Application Screener</h1>
         <h2>Single Application Form</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <p>{{ form.refile.label }} {{form.refile() }}
+            </p>
+            <p>{{ form.employer_num_employees.label }} {{form.employer_num_employees() }}
+            </p>
+            <p>{{ form.foreign_worker_ownership_interest.label }} {{form.foreign_worker_ownership_interest() }}
+            </p>
+            <p>{{ form.pw_amount_9089.label }} {{form.pw_amount_9089() }}
+            </p>
+            <p>What is the offered wage/salary range? If there has only been one wage/salary offer, enter the offer in the low field.
+            </p>
+            <p>{{ form.wage_offer_from.label }} {{form.wage_offer_from() }}
+            </p>
+            <p>{{ form.wage_offer_to.label }} {{form.wage_offer_to() }}
+            </p>
+            <p>{{ form.job_info_training.label }} {{form.job_info_training() }}
+            </p>
+            <p>{{ form.job_info_training_num_months.label }} {{form.job_info_training_num_months() }}
+            </p>
+            <p>{{ form.job_info_experience.label}} {{form.job_info_experience() }}
+            </p>
+            <p>{{ form.job_info_experience_num_months.label }} {{form.job_info_experience_num_months() }}
+            </p>
+            <p>{{ form.job_info_alt_field.label }} {{form.job_info_alt_field() }}
+            </p>
+            <p>{{ form.job_info_foreign_ed.label }} {{form.job_info_foreign_ed() }}
+            </p>
+            <p>{{ form.job_info_alt_occ.label }} {{form.job_info_alt_occ() }}
+            </p>
+            <p>{{ form.job_info_alt_occ_num_months.label }} {{form.job_info_alt_occ_num_months() }}
+            </p>
+            <p>{{ form.job_info_job_req_normal.label }} {{form.job_info_job_req_normal() }}
+            </p>
+            {{ form.submit }}
+        </form>
         <p>Click <a href="{{ url_for('home') }}">here</a> to return to the home page.</p>
     </body>
 </html>
