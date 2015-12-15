@@ -1,24 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import Form
-from wtforms.fields import RadioField, SubmitField, SelectField, IntegerField, FloatField, DateField
+from fields import CountryField, YesNoField, EducationField, VisaField
+from wtforms.fields import RadioField, SubmitField, SelectField, IntegerField,
+FloatField
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
-
-
-class YesNoField(SelectField):
-    def __init__(self, *args, **kwargs):
-        super(YesNoField, self).__init__(*args, **kwargs)
-        self.choices = [(1, 'Yes'), (0, 'No')]
-        self.default = 0
-
-
-class EducationField(SelectField):
-    def __init__(self, *args, **kwargs):
-        super(EducationField, self).__init__(*args, **kwargs)
-        eds = ['Doctorate', 'Master\'s', 'Bachelor\'s', 'Associate\'s',
-               'High School', 'None', 'Other']
-        self.choices = [(name, name) for name in eds]
 
 
 class SingleBulkForm(Form):
@@ -112,37 +100,49 @@ class SingleForm(Form):
                                  (10, 'Oct'), (11, 'Nov'), (12, 'Dec')])
     JOB_INFO_EDUCATION = EducationField('What is the highest level of education\
                                         acheived by the foreign worker?')
-
+    COUNTRY_OF_CITIZENSHIP = CountryField('What is the foreign worker\'s\
+                                          country of citizenship?')
+    CLASS_OF_ADMISSION = VisaField('What is the Visa Class?')
 
     submit = SubmitField('Go')
 
 
 @app.route('/')
 def home():
+    session['index'] = 0
     return render_template('home.html')
 
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    if 'index' not in session:
+        return redirect(url_for('home'))
     form = SingleBulkForm()
     if form.validate_on_submit():
         if form.answer.data == 'bulk':
+            session['bulk'] = 0
             return redirect(url_for('bulk'))
         else:
+            session['single'] = 0
             return redirect(url_for('single'))
     return render_template('index.html', form=form)
 
 
 @app.route('/single')
 def single():
+    if 'single' not in session:
+        return redirect(url_for('home'))
     form = SingleForm()
     if form.validate_on_submit():
+        session['single_report'] = 0
         return redirect(url_for('single_report'))
     return render_template('single.html', form=form)
 
 
 @app.route('/single_report')
 def single_report():
+    if 'single_report' not in session:
+        return redirect(url_for('home'))
     return render_template('single_report.html')
 
 
@@ -157,3 +157,4 @@ def bulk_report():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
